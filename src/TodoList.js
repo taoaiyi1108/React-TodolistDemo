@@ -1,4 +1,5 @@
 import React, { Component, Fragment } from "react";
+import axios from 'axios';
 import TodoItem from './TodoItem';
 import './style.css';
 
@@ -40,21 +41,26 @@ class TodoList extends Component {
     }
     componentDidMount() {
         // 组件被挂在页面之后自动被执行
-        console.log("componentDidMount");
+        // ajax 请求数据
+        axios.get("/api/todolist").then( res =>{
+            console.log(res.data)
+            this.setState(() =>{
+                return {list:res.data}
+            });
+        },error =>{
+            console.log(error)
+        })
     }
     shouldComponentUpdate() {
         // 组件被更新之前会自动执行
-        console.log("shouldComponentUpdate");
         return true; // 是否更新组件 true 更新 false 不更新
     }
     componentWillUpdate() {
         /* 组件被更新之前会自动执行，但是他在shouldComponentUpdate之后被执行
         如果componentWillUpdate返回true才会执行，返回false就不会被执行 */
-        console.log("componentWillUpdate");
     }
     componentDidUpdate() {
         // 组件更新完成之后会被执行
-        console.log("componentDidUpdate");
     }
     getTodoItem() {
         return this.state.list.map((item, index) => {
